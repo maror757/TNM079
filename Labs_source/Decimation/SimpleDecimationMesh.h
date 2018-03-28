@@ -13,11 +13,12 @@
 #define _SIMPLE_DECIMATION_MESH
 
 #include "Decimation/DecimationMesh.h"
-
+#include "Geometry/HalfEdgeMesh.h"
 class SimpleDecimationMesh : public virtual DecimationMesh {
 public:
   SimpleDecimationMesh() {}
   virtual ~SimpleDecimationMesh() {}
+  long SimpleDecimationMesh::calculateDecimation(Vector3<float> camPos);
 
 protected:
   virtual void computeCollapse(EdgeCollapse *collapse);

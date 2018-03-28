@@ -592,6 +592,12 @@ void FrameMain::DecimateObjects(wxCommandEvent &event) {
       /*mesh->decimate();*/
       long targetFaces;
       if (m_DecimationTargetTxtBox->GetValue().ToLong(&targetFaces)) {
+		/*
+		  //GLCamera camObject;
+		  //Vector3<float> camPos = camObject.GetPosition();
+		  Vector3<float> camPos = { 0.0f, 0.8f, 1.0f};
+
+		  targetFaces = calculateDecimation(camPos);*/
         std::cout << "Target Decimation Faces: " << targetFaces << std::endl;
         mesh->decimate(targetFaces);
       } else

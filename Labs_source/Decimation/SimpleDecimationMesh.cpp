@@ -11,6 +11,8 @@
  *************************************************************************************************/
 #include "SimpleDecimationMesh.h"
 
+
+
 void SimpleDecimationMesh::computeCollapse(EdgeCollapse *collapse) {
   // The new vertex position is implicitly stored as the
   // position halfway along the edge. The cost is computed as
@@ -21,4 +23,21 @@ void SimpleDecimationMesh::computeCollapse(EdgeCollapse *collapse) {
       mVerts[mEdges[mEdges[collapse->halfEdge].pair].vert].pos;
   collapse->position = (v0 + v1) * 0.5;
   collapse->cost = (collapse->position - v0).Length();
+  
+  
+
+
+  
+}
+
+   long SimpleDecimationMesh::calculateDecimation(Vector3<float> camPos) {
+	long decimationFaces = 500;
+
+	Vector3<float> v1 = mVerts.at(0).pos;
+	float distance = (v1 - camPos).Length();
+
+	std::cout << "Distance = " << distance << std::endl;
+
+	return decimationFaces;
+
 }
