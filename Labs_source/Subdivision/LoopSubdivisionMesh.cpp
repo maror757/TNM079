@@ -108,7 +108,14 @@ LoopSubdivisionMesh::Subdivide(size_t faceIndex) {
 Vector3<float> LoopSubdivisionMesh::VertexRule(size_t vertexIndex) {
   // Get the current vertex
   Vector3<float> vtx = v(vertexIndex).pos;
-
+  std::vector<size_t> foundVerts = FindNeighborVertices(vertexIndex);
+  size_t k = foundVerts.size();
+  float b = Beta(k);
+  vtx *= (1 - k*b);
+  for (size_t i = 0; i < k; i++)
+  {
+	  vtx += v(foundVerts.at(i)).pos * b;
+  }
   return vtx;
 }
 
@@ -121,7 +128,11 @@ Vector3<float> LoopSubdivisionMesh::EdgeRule(size_t edgeIndex) {
   HalfEdge &e1 = e(e0.pair);
   Vector3<float> &v0 = v(e0.vert).pos;
   Vector3<float> &v1 = v(e1.vert).pos;
-  return (v0 + v1) * 0.5f;
+
+  Vector3<float> &v2 = v(e(e0.prev).vert).pos;
+  Vector3<float> &v3 = v(e(e1.prev).vert).pos;
+  Vector3<float> newpos = 0.375f*(v0 + v1) + 0.125f*(v2 + v3);
+  return newpos;
 }
 
 //! Return weights for interior verts
