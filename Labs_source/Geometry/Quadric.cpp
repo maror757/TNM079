@@ -20,11 +20,21 @@ Quadric::~Quadric() {}
  * of the world-coordinates by mWorld2Obj, or transformation of the quadric
  * coefficient matrix by GetTransform() ONCE (see Section 2.2 in lab text).
  */
-float Quadric::GetValue(float x, float y, float z) const { return 0; }
+float Quadric::GetValue(float x, float y, float z) const { 
+	
+	Vector4<float> p = Vector4<float>(x, y, z, 1.0f);
+
+	return p * (mQuadric*p); 
+}
 
 /*!
  * Use the quadric matrix to evaluate the gradient.
  */
 Vector3<float> Quadric::GetGradient(float x, float y, float z) const {
-  return Vector3<float>(0, 0, 0);
+	Matrix4x4<float> q = mQuadric;
+	//q(3, 0) = q(3, 1) = q(3, 2) = q(3, 3) = 0.0f;
+	Vector4<float> p = Vector4<float>(x, y, z, 1.0f);
+	Vector4<float> result = 2.0f*(q*p);
+
+	return Vector3<float>(result[0], result[1], result[2]);
 }

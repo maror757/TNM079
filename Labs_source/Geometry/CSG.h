@@ -43,7 +43,11 @@ public:
     // and can be transformed like all implicit surfaces.
     // Then, get values from left and right children and perform the
     // boolean operation.
-    return 0;
+
+
+	Implicit::TransformW2O(x,y,z);
+	float val = std::min(left->GetValue(x, y, z), right->GetValue(x, y, z));
+    return val;
   }
 };
 
@@ -54,7 +58,12 @@ public:
     mBox = BoxIntersection(l->GetBoundingBox(), r->GetBoundingBox());
   }
 
-  virtual float GetValue(float x, float y, float z) const { return 0; }
+  virtual float GetValue(float x, float y, float z) const { 
+	  
+	  Implicit::TransformW2O(x, y, z);
+	  float val = std::max(left->GetValue(x, y, z), right->GetValue(x, y, z));
+	  return val;
+  }
 };
 
 /*! \brief Difference boolean operation */
@@ -64,7 +73,12 @@ public:
     mBox = l->GetBoundingBox();
   }
 
-  virtual float GetValue(float x, float y, float z) const { return 0; }
+  virtual float GetValue(float x, float y, float z) const { 
+	  
+	  Implicit::TransformW2O(x, y, z);
+	  float val = std::max(left->GetValue(x, y, z), -1.0f*right->GetValue(x, y, z));
+	  return val;
+  }
 };
 
 /*! \brief BlendedUnion boolean operation */
