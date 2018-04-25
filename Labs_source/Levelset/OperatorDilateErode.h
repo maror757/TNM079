@@ -34,7 +34,8 @@ public:
 
   virtual float ComputeTimestep() {
     // Compute and return a stable timestep
-    return 1;
+	  
+    return mLS->GetDx()*0.9f / abs(mF);
   }
 
   virtual void Propagate(float time) {
@@ -57,7 +58,11 @@ public:
 
   virtual float Evaluate(size_t i, size_t j, size_t k) {
     // Compute the rate of change (dphi/dt)
-    return 0;
+	 float ddx2, ddy2, ddz2;
+	 Godunov(i, j, k, mF, ddx2, ddy2, ddz2);
+
+	 float grad = std::sqrt(ddx2 + ddy2 + ddz2);
+	return	-1.0f*mF*grad;
   }
 };
 
